@@ -1,9 +1,9 @@
 class QuickFind
   attr_reader :elements
 
-  def initialize(ary_lenght)
+  def initialize(elements_lenght)
     @elements = []
-    for i in ary_lenght.times
+    elements_lenght.times do |i|
       @elements[i] = i
     end
   end
@@ -11,7 +11,7 @@ class QuickFind
   def union(number_one, number_two)
     return self if connected?(number_one, number_two)
 
-    change(@elements.size, @elements[number_one], @elements[number_two])
+    connect(@elements.size, @elements[number_one], @elements[number_two])
   end
 
   def connected?(number_one, number_two)
@@ -19,12 +19,14 @@ class QuickFind
   end
 
   private
-  def change(i, first, second)
-    return self if i < 0
-
+  def connect(i, first, second)
     @elements[i] = second if @elements[i] == first
 
-    change(i-1, first, second)
+    return self if i == 0
+    connect(next_(i), first, second)
   end
 
+  def next_(i)
+    i - 1
+  end
 end
