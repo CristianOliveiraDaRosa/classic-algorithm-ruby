@@ -16,7 +16,7 @@ class QuickFindTest < Test::Unit::TestCase
     result = QuickFind.new array_lenght
 
     # then
-    assert_equal expected, result.id
+    assert_equal expected, result.elements
   end
 
   def test_it_should_connect_first_number_with_second
@@ -26,7 +26,7 @@ class QuickFindTest < Test::Unit::TestCase
     number_two = 2
 
     # when
-    result = @quick_find.union(number_one, number_two).id
+    result = @quick_find.union(number_one, number_two).elements
 
     # then
     assert_equal expected, result
@@ -37,7 +37,7 @@ class QuickFindTest < Test::Unit::TestCase
     expected = [0,3,3,3,4]
 
     # when
-    result = @quick_find.union(1, 2).union(2, 3).id
+    result = @quick_find.union(1, 2).union(2, 3).elements
 
     # then
     assert_equal expected, result
@@ -48,7 +48,7 @@ class QuickFindTest < Test::Unit::TestCase
     expected = [0,3,3,3,4]
 
     # when
-    result = @quick_find.union(1, 2).union(2, 3).union(3, 2).id
+    result = @quick_find.union(1, 2).union(2, 3).union(3, 2).elements
 
     # then
     assert_equal expected, result
@@ -59,7 +59,7 @@ class QuickFindTest < Test::Unit::TestCase
     expected = [4,2,2,3,4]
 
     # when
-    result = @quick_find.union(1, 2).union(0, 4).id
+    result = @quick_find.union(1, 2).union(0, 4).elements
 
     # then
     assert_equal expected, result
