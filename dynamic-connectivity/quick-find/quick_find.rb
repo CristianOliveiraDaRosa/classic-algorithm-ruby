@@ -2,10 +2,7 @@ class QuickFind
   attr_reader :elements
 
   def initialize(elements_lenght)
-    @elements = []
-    elements_lenght.times do |i|
-      @elements[i] = i
-    end
+    @elements = elements_lenght.times.map{|i| i }
   end
 
   def union(number_one, number_two)
@@ -14,8 +11,8 @@ class QuickFind
     connect(@elements.size, @elements[number_one], @elements[number_two])
   end
 
-  def connected?(number_one, number_two)
-    @elements[number_one] == @elements[number_two]
+  def connected?(number, target)
+    @elements[number] == @elements[target]
   end
 
   private
