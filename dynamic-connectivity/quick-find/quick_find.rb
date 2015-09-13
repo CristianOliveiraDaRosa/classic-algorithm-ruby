@@ -5,10 +5,10 @@ class QuickFind
     @elements = elements_lenght.times.map{|i| i }
   end
 
-  def union(number_one, number_two)
-    return self if connected?(number_one, number_two)
+  def union(element, target)
+    return self if connected?(element, target)
 
-    connect(@elements.size, @elements[number_one], @elements[number_two])
+    connect(@elements.size, @elements[element], @elements[target])
   end
 
   def connected?(number, target)
