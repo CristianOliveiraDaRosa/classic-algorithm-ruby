@@ -10,17 +10,17 @@ module Selection
     def _sort(values, icurrent)
       return values if invalid?(values) or values.size == icurrent
 
-      indext_lesser = find_lesser(values, icurrent, next_(icurrent))
-      values = exchange(values, icurrent, indext_lesser)
+      ilowest = lowest(values, icurrent, next_(icurrent))
+      values = exchange(values, icurrent, ilowest)
 
       _sort(values, next_(icurrent))
     end
 
     private
-    def find_lesser(values, lesser, current)
-      return lesser if values.size == current
-      lesser = current if greater?(values[lesser], values[current])
-      find_lesser(values, lesser, next_(current))
+    def lowest(values, low, current)
+      return low if values.size == current
+      low = current if greater?(values[low], values[current])
+      lowest(values, low, next_(current))
     end
 
     def greater?(current, compared)
