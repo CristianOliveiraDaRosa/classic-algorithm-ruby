@@ -4,30 +4,33 @@
 module Selection
   class Sort
     def sort(values)
-      @count = 0
-      _sort(values, 0, 1)
+      _sort(values, 0)
+    end
+
+    def _sort(values, icurrent)
+      return values if invalid?(values) or values.size == icurrent
+
+      indext_lesser = find_lesser(values, icurrent, next_(icurrent))
+      values = exchange(values, icurrent, indext_lesser)
+
+      _sort(values, next_(icurrent))
     end
 
     private
-    def _sort(values, current, compared)
-      @count += 1
-      p "values #{values} current #{current}, compared #{compared} count #{@count}"
-      return values if invalid?(values) or finished?(values.size, current, compared)
-
-      values = exchange(values, current, compared) if greater?(values[current], values[compared])
-
-      values = _sort(values, current, next_(compared))
-      _sort(values, next_(current), compared)
+    def find_lesser(values, lesser, current)
+      return lesser if values.size == current
+      lesser = current if greater?(values[lesser], values[current])
+      find_lesser(values, lesser, next_(current))
     end
 
     def greater?(current, compared)
-      (current <=> compared) == 1
+      (nill_value(current) <=> nill_value(compared)) == 1
     end
 
-    def exchange(values, current, compared)
+    def exchange(values, current, min)
       current_value = values[current]
-      values[current] = values[compared]
-      values[compared] = current_value
+      values[current] = values[min]
+      values[min] = current_value
       values
     end
 
@@ -35,12 +38,13 @@ module Selection
       values.nil? || values.empty? || values.one?
     end
 
-    def finished?(size, current, compared)
-      size == compared or current == compared
-    end
-
     def next_(pointer)
       pointer + 1
+    end
+
+    def nill_value(value)
+      return 0 if value.nil?
+      value
     end
   end
 end
