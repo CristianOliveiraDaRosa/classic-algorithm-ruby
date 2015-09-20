@@ -9,8 +9,7 @@ module Balanced
     end
 
     def union(number, target)
-      child, parent = smallest(root(number), root(target))
-      return connect(child, parent)
+      return connect(smallest_to_greatest_tree(root(number), root(target)))
     end
 
     def connected?(number, target)
@@ -18,9 +17,9 @@ module Balanced
     end
 
     private
-    def smallest(root, root_target)
-      return root, root_target if @tree_size[root] < @tree_size[root_target]
-      return root_target, root
+    def smallest_to_greatest_tree(root, root_target)
+      return [root, root_target] if @tree_size[root] < @tree_size[root_target]
+      return [root_target, root]
     end
 
     def root(element)
@@ -32,7 +31,8 @@ module Balanced
       @elements[element] == element
     end
 
-    def connect(child, parent)
+    def connect(elements)
+      child, parent = elements[0], elements[1]
       @elements[child] = parent
       @tree_size[parent] += @tree_size[child] if @tree_size[child] == @tree_size[parent]
       return self
