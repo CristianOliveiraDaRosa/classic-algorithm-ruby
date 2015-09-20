@@ -1,19 +1,22 @@
+require_relative '../shared/validator'
+require_relative '../shared/exchanger'
 ##
 # Implementation of sort using {https://pt.wikipedia.org/wiki/Selection_sort} algorithm
 
 module Selection
   class Sort
     def sort(values)
+      @exchanger = Exchanger.new
       _sort(values, 0)
     end
 
-    def _sort(values, icurrent)
-      return values if invalid?(values) or values.size == icurrent
+    def _sort(values, index)
+      return values if Validator.invalid?(values) or values.size == index
 
-      ilowest = lowest(values, icurrent, next_(icurrent))
-      values = exchange(values, icurrent, ilowest)
+      ilowest = lowest(values, index, next_(index))
+      values = @exchanger.exchange(values, index, ilowest)
 
-      _sort(values, next_(icurrent))
+      _sort(values, next_(index))
     end
 
     private
@@ -24,25 +27,14 @@ module Selection
     end
 
     def greater?(current, compared)
-      (nill_value(current) <=> nill_value(compared)) == 1
-    end
-
-    def exchange(values, current, min)
-      current_value = values[current]
-      values[current] = values[min]
-      values[min] = current_value
-      values
-    end
-
-    def invalid?(values)
-      values.nil? || values.empty? || values.one?
+      (nil_value(current) <=> nil_value(compared)) == 1
     end
 
     def next_(pointer)
       pointer + 1
     end
 
-    def nill_value(value)
+    def nil_value(value)
       return 0 if value.nil?
       value
     end
