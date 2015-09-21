@@ -1,11 +1,14 @@
 require_relative '../shared/validator'
 require_relative '../shared/exchanger'
+require_relative '../shared/comparator'
+
 ##
 # Implementation of sort using {https://pt.wikipedia.org/wiki/Selection_sort} algorithm
 
 module Selection
   class Sort
     def sort(values)
+      @comparator = Comparator.new
       @exchanger = Exchanger.new
       _sort(values, 0)
     end
@@ -22,21 +25,12 @@ module Selection
     private
     def lowest(values, low, current)
       return low if values.size == current
-      low = current if greater?(values[low], values[current])
+      low = current if @comparator.this(values[low]).greater_than?(values[current])
       lowest(values, low, next_(current))
-    end
-
-    def greater?(current, compared)
-      (nil_value(current) <=> nil_value(compared)) == 1
     end
 
     def next_(pointer)
       pointer + 1
-    end
-
-    def nil_value(value)
-      return 0 if value.nil?
-      value
     end
   end
 end
