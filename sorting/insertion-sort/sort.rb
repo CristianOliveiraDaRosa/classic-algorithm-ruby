@@ -7,10 +7,7 @@ require_relative '../shared/comparator'
 
 module Insertion
   class Sort
-    def initialize
-      @comparator = Comparator.new
-      @exchanger = Exchanger.new
-    end
+    include Exchanger, Validator, Comparator
 
     def sort(values)
       _sort(values, 0)
@@ -18,7 +15,7 @@ module Insertion
 
     private
     def _sort(values, index)
-      return values if Validator.invalid?(values) or values.size == index
+      return values if invalid_to_sort?(values) or values.size == index
       values = sort_back(values, index, prev_(index))
       _sort(values, next_(index))
     end
@@ -26,8 +23,8 @@ module Insertion
     def sort_back(values, lowest, previus)
       return values if previus < 0
 
-      if @comparator.this(values[previus]).greater_than?(values[lowest])
-        values = @exchanger.exchange(values, previus, lowest)
+      if greater?(values[previus], values[lowest])
+        values = exchange(values, previus, lowest)
         lowest = previus
       end
 

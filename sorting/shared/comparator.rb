@@ -1,16 +1,16 @@
-class Comparator
+##
+# Helper for nil values
 
-  def this(value)
-    @value = value
-    return self
+module Comparator
+  ##
+  # Compare first value with other to verfy if it is greater than
+
+  def greater?(value, other)
+    (nil_value(value) <=> nil_value(other)) == 1
   end
 
-  def greater_than?(other)
-    (nil_value(@value) <=> nil_value(other)) == 1
-  end
-
-  def lesser_than?(other)
-    (nil_value(@value) <=> nil_value(other)) == -1
+  def lesser?(value, other)
+    (nil_value(value) <=> nil_value(other)) == -1
   end
 
   private

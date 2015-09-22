@@ -7,17 +7,17 @@ require_relative '../shared/comparator'
 
 module Selection
   class Sort
+    include Exchanger, Validator, Comparator
+
     def sort(values)
-      @comparator = Comparator.new
-      @exchanger = Exchanger.new
       _sort(values, 0)
     end
 
     def _sort(values, index)
-      return values if Validator.invalid?(values) or values.size == index
+      return values if invalid_to_sort?(values) or values.size == index
 
       ilowest = lowest(values, index, next_(index))
-      values = @exchanger.exchange(values, index, ilowest)
+      values = exchange(values, index, ilowest)
 
       _sort(values, next_(index))
     end
@@ -25,7 +25,7 @@ module Selection
     private
     def lowest(values, low, current)
       return low if values.size == current
-      low = current if @comparator.this(values[low]).greater_than?(values[current])
+      low = current if greater?(values[low], values[current])
       lowest(values, low, next_(current))
     end
 

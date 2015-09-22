@@ -7,28 +7,25 @@ require_relative '../shared/comparator'
 
 module Shell
   class Sort
-    def initialize
-      @exchanger = Exchanger.new
-      @comparator = Comparator.new
-    end
+    include Exchanger, Validator, Comparator
 
     def sort(values)
-      return values if Validator.invalid?(values)
-      @h = values.size / 2
+      return values if invalid_to_sort?(values)
+      @h = half(values.size)
       _sort(values, 0)
     end
 
     private
     def _sort(values, index)
       if values.size <= index
-        @h = @h / 2
+        @h = half(@h)
         index = 0
       end
       return values if @h == 0
 
       has_next = values.size > index + @h
-      if @comparator.this(values[index]).greater_than?(values[index + @h]) and has_next
-        values = @exchanger.exchange(values, index, index + @h)
+      if greater?(values[index], values[index + @h]) and has_next
+        values = exchange(values, index, index + @h)
         sort_back(values, index, prev_(index))
       end
 
@@ -38,14 +35,15 @@ module Shell
     def sort_back(values, lowest, previus)
       return values if previus < 0
 
-      if @comparator.this(values[previus]).greater_than?(values[lowest])
-        values = @exchanger.exchange(values, previus, lowest)
+      if greater?(values[previus], values[lowest])
+        values = exchange(values, previus, lowest)
         lowest = previus
       end
 
       sort_back(values, lowest, prev_(previus))
     end
 
+      def half(value); value / 2; end
     def prev_(pointer); pointer - @h; end
     def next_(pointer); pointer + 1; end
   end
