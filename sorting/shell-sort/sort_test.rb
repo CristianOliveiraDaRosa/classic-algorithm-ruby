@@ -18,9 +18,9 @@ module Shell
       assert_equal [5, 10], @selection.sort([5, 10])
       assert_equal [1, 2, 3, 10, 50], @selection.sort([1, 2, 3, 10, 50])
 
-      assert_equal ['a', 'b'], @selection.sort(['a', 'b'])
-      assert_equal ['a', 'z'], @selection.sort(['a', 'z'])
-      assert_equal ['a', 'b', 'c'], @selection.sort(['a', 'b', 'c'])
+      assert_equal %w(a b), @selection.sort(['a', 'b'])
+      assert_equal %w(a z), @selection.sort(['a', 'z'])
+      assert_equal %w(a b c), @selection.sort(['a', 'b', 'c'])
     end
 
     def test_it_should_sort_numbers
@@ -38,10 +38,10 @@ module Shell
     end
 
     def test_it_should_sort_strings
-      assert_equal ['a', 'b'], @selection.sort(['b', 'a'])
-      assert_equal ['a', 'z'], @selection.sort(['z', 'a'])
-      assert_equal ['a', 'a', 'z'], @selection.sort(['z', 'a', 'a'])
-      assert_equal ['a', 'b', 'm', 'z'], @selection.sort(['z', 'a', 'b', 'm'])
+      assert_equal %w(a b), @selection.sort(['b', 'a'])
+      assert_equal %w(a z), @selection.sort(['z', 'a'])
+      assert_equal %w(a a z), @selection.sort(['z', 'a', 'a'])
+      assert_equal %w(a b m z), @selection.sort(['z', 'a', 'b', 'm'])
     end
 
     def test_it_should_consider_nil_values_as_zero

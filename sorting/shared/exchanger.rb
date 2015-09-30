@@ -6,9 +6,7 @@ module Exchanger
   # @param other [Integer] index to be changed
 
   def exchange(values, current, other)
-    current_value = values[current]
-    values[current] = values[other]
-    values[other] = current_value
+    values[current], values[other] = values[other], values[current]
     return(values)
   end
 end

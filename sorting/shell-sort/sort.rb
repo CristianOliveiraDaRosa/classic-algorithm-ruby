@@ -11,7 +11,7 @@ module Shell
 
     def sort(values)
       return values if invalid_to_sort?(values)
-      @h = half(values.size)
+      @h = calcule_h(values.size,1)
       _sort(values, 0)
     end
 
@@ -43,7 +43,11 @@ module Shell
       sort_back(values, lowest, prev_(previus))
     end
 
-      def half(value); value / 2; end
+    def calcule_h(array_size, value)
+      return value if (array_size / 3) < value
+      calcule_h(array_size, (value * 3) + 1)
+    end
+    def half(value); value / 2; end
     def prev_(pointer); pointer - @h; end
     def next_(pointer); pointer + 1; end
   end
