@@ -17,31 +17,28 @@ module Merge
     private
 
     def _sort(values, ibegin, iend)
-      return [values[ibegin]] if ibegin >= iend
+      return [values[ibegin]] if ibegin == iend
 
       mid = ((iend - ibegin) / 2) + ibegin
 
       left  = _sort(values, ibegin, mid)
       right = _sort(values, mid + 1 , iend)
 
-      values = []
-      merge(values, left, right)
+      merge([], left, right)
     end
 
     def merge(values, left, right)
+      # p "values #{values} left #{left} right #{right}"
       return values if left.empty? and right.empty?
 
       if left.empty?
-        values.push(right.shift)
-        merge(values, left, right)
+        merge(values + [right.shift], left, right)
 
       elsif right.empty? || (left.first <=> right.first) <= 0
-        values.push(left.shift)
-        merge(values, left, right)
+        merge(values + [left.shift], left, right)
 
       else
-        values.push(right.shift)
-        merge(values, left, right)
+        merge(values + [right.shift], left, right)
       end
     end
   end
