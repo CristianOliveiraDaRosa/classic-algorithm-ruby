@@ -3,9 +3,9 @@ require_relative '../shared/exchanger'
 require_relative '../shared/validator'
 require 'pry-byebug'
 
-##
-# Implemetation of Merge Sort see: {https://pt.wikipedia.org/wiki/Merge_sort}
 module Merge
+  ##
+  # Implemetation of Merge Sort see: {https://pt.wikipedia.org/wiki/Merge_sort}
   class Sort
     include Validator, Comparator
 
@@ -22,24 +22,24 @@ module Merge
       mid = ((iend - ibegin) / 2) + ibegin
 
       left  = _sort(values, ibegin, mid)
-      right = _sort(values, mid + 1 , iend)
+      right = _sort(values, (mid + 1), iend)
 
       merge([], left, right)
     end
 
     def merge(values, left, right)
-      # p "values #{values} left #{left} right #{right}"
-      return values if left.empty? and right.empty?
+      p "values #{values} left #{left} right #{right}"
+      return values if left.empty? && right.empty?
 
       if left.empty?
-        merge(values + [right.shift], left, right)
-
+        merged = values + [right.shift]
       elsif right.empty? || (left.first <=> right.first) <= 0
-        merge(values + [left.shift], left, right)
-
+        merged = values + [left.shift]
       else
-        merge(values + [right.shift], left, right)
+        merged = values + [right.shift]
       end
+
+      merge(merged, left, right)
     end
   end
 end
